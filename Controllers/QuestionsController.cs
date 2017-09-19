@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,8 @@ namespace SOF.Controllers
     public class QuestionsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        private readonly UserManager<ApplicationUser> _userManager;
+                       //^ how to manage user it's in Manage controller
         public QuestionsController(ApplicationDbContext context)
         {
             _context = context;
@@ -42,13 +45,13 @@ namespace SOF.Controllers
 
             return View(questionsModel);
         }
-
+         [Authorize]
         // GET: Questions/Create
         public IActionResult Create()
         {
             return View();
         }
-
+        [Authorize]
         // POST: Questions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -58,12 +61,15 @@ namespace SOF.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(User); //added this to reference in Model
+                questionsModel.ApplicationUserId = user.Id;       //added this to reference in Model
                 _context.Add(questionsModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(questionsModel);
         }
+        [Authorize]
 
         // GET: Questions/Edit/5
         public async Task<IActionResult> Edit(string id)
@@ -80,6 +86,7 @@ namespace SOF.Controllers
             }
             return View(questionsModel);
         }
+        [Authorize]
 
         // POST: Questions/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -115,7 +122,7 @@ namespace SOF.Controllers
             }
             return View(questionsModel);
         }
-
+        [Authorize]
         // GET: Questions/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
@@ -133,7 +140,7 @@ namespace SOF.Controllers
 
             return View(questionsModel);
         }
-
+        [Authorize]
         // POST: Questions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

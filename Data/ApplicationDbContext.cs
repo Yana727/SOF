@@ -5,18 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SOF.Models;
-
+    
 namespace SOF.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-
         public DbSet<AnswersModel> Answers {get;set;}
         public DbSet<CommentsModel> Comments { get; set; }
         public DbSet<QTiesModel> QTies { get; set; }
         public DbSet<QuestionsModel> Questions { get; set; }
         public DbSet<TagsModel> Tags { get; set; }
-
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
