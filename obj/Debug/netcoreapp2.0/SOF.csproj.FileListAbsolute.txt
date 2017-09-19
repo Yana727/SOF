@@ -1,0 +1,12 @@
+/Users/yanawilkins/Documents/dotnet/SOF/bin/Debug/netcoreapp2.0/app.db
+/Users/yanawilkins/Documents/dotnet/SOF/bin/Debug/netcoreapp2.0/SOF.deps.json
+/Users/yanawilkins/Documents/dotnet/SOF/bin/Debug/netcoreapp2.0/SOF.runtimeconfig.json
+/Users/yanawilkins/Documents/dotnet/SOF/bin/Debug/netcoreapp2.0/SOF.runtimeconfig.dev.json
+/Users/yanawilkins/Documents/dotnet/SOF/bin/Debug/netcoreapp2.0/SOF.dll
+/Users/yanawilkins/Documents/dotnet/SOF/bin/Debug/netcoreapp2.0/SOF.pdb
+/Users/yanawilkins/Documents/dotnet/SOF/obj/Debug/netcoreapp2.0/SOF.csproj.CoreCompileInputs.cache
+/Users/yanawilkins/Documents/dotnet/SOF/obj/Debug/netcoreapp2.0/UserSecretsAssemblyInfo.cs
+/Users/yanawilkins/Documents/dotnet/SOF/obj/Debug/netcoreapp2.0/SOF.AssemblyInfoInputs.cache
+/Users/yanawilkins/Documents/dotnet/SOF/obj/Debug/netcoreapp2.0/SOF.AssemblyInfo.cs
+/Users/yanawilkins/Documents/dotnet/SOF/obj/Debug/netcoreapp2.0/SOF.dll
+/Users/yanawilkins/Documents/dotnet/SOF/obj/Debug/netcoreapp2.0/SOF.pdb
