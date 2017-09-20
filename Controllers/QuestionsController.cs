@@ -17,9 +17,10 @@ namespace SOF.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
                        //^ how to manage user it's in Manage controller
-        public QuestionsController(ApplicationDbContext context)
-        {
+        public QuestionsController(ApplicationDbContext context, UserManager<ApplicationUser> um)
+        {                                                         //^reference in ManageController
             _context = context;
+            _userManager = um; 
         }
 
         // GET: Questions
@@ -57,12 +58,14 @@ namespace SOF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,VoteCount,Title,Body,UserId,PostDate")] QuestionsModel questionsModel)
+        public async Task<IActionResult> Create([Bind("Title,QuestionText")] QuestionsModel questionsModel)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User); //added this to reference in Model
-                questionsModel.ApplicationUserId = user.Id;       //added this to reference in Model
+                //get the user and attach the userId to the new question
+                var user = await _userManager.GetUserAsync(HttpContext.User); 
+                                                          //^info about request (cookies)
+                questionsModel.ApplicationUserId = user.Id;     
                 _context.Add(questionsModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
