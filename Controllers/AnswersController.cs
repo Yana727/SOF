@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,25 +10,23 @@ using SOF.Models;
 
 namespace SOF.Controllers
 {
-    public class QuestionsController : Controller
+    public class AnswersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-                       //^ how to manage user it's in Manage controller
-        public QuestionsController(ApplicationDbContext context, UserManager<ApplicationUser> um)
-        {                                                         //^reference in ManageController
+
+        public AnswersController(ApplicationDbContext context)
+        {
             _context = context;
-            _userManager = um; 
         }
 
-        // GET: Questions
+        // GET: Answers
         public async Task<IActionResult> Index()
-        {  
-            var ApplicationDbContext = _context.Questions.Include(q => q.ApplicationUser);
-            return View(await _context.Questions.ToListAsync());
+        {
+            var applicationDbContext = _context.Answers.Include(a => a.ApplicationUser);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Questions/Details/5
+        // GET: Answers/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -38,46 +34,42 @@ namespace SOF.Controllers
                 return NotFound();
             }
 
-            var questionsModel = await _context.Questions
-                .Include(q => q.ApplicationUser)
-                //.Include(i => i.Answers).ThenInclude(t => t.ApplicationUser)
+            var answersModel = await _context.Answers
+                .Include(a => a.ApplicationUser)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (questionsModel == null)
+            if (answersModel == null)
             {
                 return NotFound();
             }
 
-            return View(questionsModel);
+            return View(answersModel);
         }
-         [Authorize]
-        // GET: Questions/Create
+
+        // GET: Answers/Create
         public IActionResult Create()
         {
+            ViewData["ApplicationUserID"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
-        [Authorize]
-        // POST: Questions/Create
+
+        // POST: Answers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Body")] QuestionsModel questionsModel)
+        public async Task<IActionResult> Create([Bind("Id,AnswerText,AnswerTime,yesVote,noVote,IsCorrectAnsw,ApplicationUserID,QuestionId")] AnswersModel answersModel)
         {
             if (ModelState.IsValid)
             {
-                //get the user and attach the userId to the new question
-                var user = await _userManager.GetUserAsync(HttpContext.User); 
-                                                          //^info about request (cookies)
-                questionsModel.ApplicationUserId = user.Id;     
-                _context.Add(questionsModel);
+                _context.Add(answersModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(questionsModel);
+            ViewData["ApplicationUserID"] = new SelectList(_context.Users, "Id", "Id", answersModel.ApplicationUserID);
+            return View(answersModel);
         }
-        [Authorize]
 
-        // GET: Questions/Edit/5
+        // GET: Answers/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -85,23 +77,23 @@ namespace SOF.Controllers
                 return NotFound();
             }
 
-            var questionsModel = await _context.Questions.SingleOrDefaultAsync(m => m.Id == id);
-            if (questionsModel == null)
+            var answersModel = await _context.Answers.SingleOrDefaultAsync(m => m.Id == id);
+            if (answersModel == null)
             {
                 return NotFound();
             }
-            return View(questionsModel);
+            ViewData["ApplicationUserID"] = new SelectList(_context.Users, "Id", "Id", answersModel.ApplicationUserID);
+            return View(answersModel);
         }
-        [Authorize]
 
-        // POST: Questions/Edit/5
+        // POST: Answers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,VoteCount,Title,Body,UserId,PostDate")] QuestionsModel questionsModel)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,AnswerText,AnswerTime,yesVote,noVote,IsCorrectAnsw,ApplicationUserID,QuestionId")] AnswersModel answersModel)
         {
-            if (id != questionsModel.Id)
+            if (id != answersModel.Id)
             {
                 return NotFound();
             }
@@ -110,12 +102,12 @@ namespace SOF.Controllers
             {
                 try
                 {
-                    _context.Update(questionsModel);
+                    _context.Update(answersModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuestionsModelExists(questionsModel.Id))
+                    if (!AnswersModelExists(answersModel.Id))
                     {
                         return NotFound();
                     }
@@ -126,10 +118,11 @@ namespace SOF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(questionsModel);
+            ViewData["ApplicationUserID"] = new SelectList(_context.Users, "Id", "Id", answersModel.ApplicationUserID);
+            return View(answersModel);
         }
-        [Authorize]
-        // GET: Questions/Delete/5
+
+        // GET: Answers/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -137,30 +130,31 @@ namespace SOF.Controllers
                 return NotFound();
             }
 
-            var questionsModel = await _context.Questions
+            var answersModel = await _context.Answers
+                .Include(a => a.ApplicationUser)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (questionsModel == null)
+            if (answersModel == null)
             {
                 return NotFound();
             }
 
-            return View(questionsModel);
+            return View(answersModel);
         }
-        [Authorize]
-        // POST: Questions/Delete/5
+
+        // POST: Answers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var questionsModel = await _context.Questions.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Questions.Remove(questionsModel);
+            var answersModel = await _context.Answers.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Answers.Remove(answersModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool QuestionsModelExists(string id)
+        private bool AnswersModelExists(string id)
         {
-            return _context.Questions.Any(e => e.Id == id);
+            return _context.Answers.Any(e => e.Id == id);
         }
     }
 }

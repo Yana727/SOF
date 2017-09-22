@@ -14,24 +14,36 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="VoteCount" class="control-label"></label>
-                <input asp-for="VoteCount" class="form-control" />
-                <span asp-validation-for="VoteCount" class="text-danger"></span>
+                <label asp-for="AnswerText" class="control-label"></label>
+                <input asp-for="AnswerText" class="form-control" />
+                <span asp-validation-for="AnswerText" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Body" class="control-label"></label>
-                <input asp-for="Body" class="form-control" />
-                <span asp-validation-for="Body" class="text-danger"></span>
+                <label asp-for="AnswerTime" class="control-label"></label>
+                <input asp-for="AnswerTime" class="form-control" />
+                <span asp-validation-for="AnswerTime" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
+                <label asp-for="yesVote" class="control-label"></label>
+                <input asp-for="yesVote" class="form-control" />
+                <span asp-validation-for="yesVote" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PostDate" class="control-label"></label>
-                <input asp-for="PostDate" class="form-control" />
-                <span asp-validation-for="PostDate" class="text-danger"></span>
+                <label asp-for="noVote" class="control-label"></label>
+                <input asp-for="noVote" class="form-control" />
+                <span asp-validation-for="noVote" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsCorrectAnsw" /> @Html.DisplayNameFor(model => model.IsCorrectAnsw)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ApplicationUserID" class="control-label"></label>
+                <select asp-for="ApplicationUserID" class="form-control" asp-items="ViewBag.ApplicationUserID"></select>
+                <span asp-validation-for="ApplicationUserID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="QuestionId" class="control-label"></label>

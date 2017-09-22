@@ -6,11 +6,23 @@ namespace SOF.Models
     public class AnswersModel
     {
         public string Id { get; set; }
-        public int VoteCount { get; set; }
-        public string Body { get; set; }
-        public string UserId { get; set; }
-        public DateTime PostDate { get; set; }
-        public string QuestionId { get; set; }
+        public string AnswerText { get; set; }
+        public DateTime AnswerTime { get; set; } = DateTime.Now;
+
+        public int yesVote { get; set; }
+
+        public int noVote { get; set; }
+
+        public bool IsCorrectAnsw { get; set; }
+
+        //FK :User
+        public string ApplicationUserID { get; set; }
+        public  virtual ApplicationUser ApplicationUser {get; set;}
+
+        //FK: Questions 
+
+        public int QuestionId { get; set; }
+        public QuestionsModel Question { get; set; }
         public AnswersModel()
         {
         }

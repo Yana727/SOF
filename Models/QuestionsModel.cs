@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 namespace SOF.Models
 {
     public class QuestionsModel
@@ -12,6 +14,11 @@ namespace SOF.Models
 		public DateTime PostDate { get; set; } = DateTime.Now; 
         public int yesVote { get; set; }
         public int noVote { get; set; }
+
+        //Answers
+         //public ICollection<Answer> Answers { get; set; } = new HashSet<Answer>();
+
+
         public QuestionsModel()
         {
         }

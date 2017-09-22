@@ -13,20 +13,26 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.VoteCount)
+                    @Html.DisplayNameFor(model => model.AnswerText)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Body)
+                    @Html.DisplayNameFor(model => model.AnswerTime)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.UserId)
+                    @Html.DisplayNameFor(model => model.yesVote)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PostDate)
+                    @Html.DisplayNameFor(model => model.noVote)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsCorrectAnsw)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.QuestionId)
                 </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApplicationUser)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -34,19 +40,25 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.VoteCount)
+                @Html.DisplayFor(modelItem => item.AnswerText)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Body)
+                @Html.DisplayFor(modelItem => item.AnswerTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
+                @Html.DisplayFor(modelItem => item.yesVote)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PostDate)
+                @Html.DisplayFor(modelItem => item.noVote)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCorrectAnsw)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.QuestionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.Id)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
